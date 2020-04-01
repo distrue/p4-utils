@@ -251,8 +251,7 @@ class TopologyDBP4(TopologyDB):
             if intf.params.get('sw_ip', None):
                 intf.ip, intf.prefixLen = intf.params['sw_ip'].split("/")
 
-        self._add_node(node, {'type': 'switch', 'subtype': 'p4switch',
-                              'thrift_port': node.thrift_port, 'sw_id': node.device_id})
+        self._add_node(node, {'type': 'switch', 'subtype': 'p4switch', 'sw_id': node.device_id}) # 'thrift_port': node.thrift_port, 
 
         # clean the IPs, this seems to make no sense, but when the p4switch is
         # started again, if the interface has an IP, the interface is not added
@@ -264,11 +263,13 @@ class TopologyDBP4(TopologyDB):
                 continue
             intf.ip, intf.prefixLen = None, None
 
-    def get_thrift_port(self, switch):
+    # def get_thrift_port(self, switch):
         """Return the Thrift port used to communicate with the P4 switch."""
+        """
         if self._node(switch).get('subtype', None) != 'p4switch':
             raise TypeError('%s is not a P4 switch' % switch)
         return self._node(switch)['thrift_port']
+        """
 
 class Topology(TopologyDBP4):
     """
